@@ -8,7 +8,11 @@ public interface IClienteDao {
 
 	public List<Cliente> getAllClienti();
 
-	public void postCliente(Cliente cliente);
+	public Cliente getClienteById(int id);
 
-	public void putCliente(Cliente cliente);
+	public boolean postCliente(Cliente cliente);
+
+	public boolean putCliente(Cliente cliente);
+
+	boolean deleteCliente(int id);
 }
