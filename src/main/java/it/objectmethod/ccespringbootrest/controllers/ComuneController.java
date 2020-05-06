@@ -3,6 +3,8 @@ package it.objectmethod.ccespringbootrest.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,23 +19,41 @@ public class ComuneController {
 	private IComuneDao comuneDao;
 
 	@GetMapping("/lista-comuni/{nomeProv}/comuni")
-	public List<Comune> getComuniByProvincia(@PathVariable("nomeProv") String nomProv) {
+	public ResponseEntity<List<Comune>> getComuniByProvincia(@PathVariable("nomeProv") String nomProv) {
 		List<Comune> com = null;
-		com = comuneDao.getAllComuni(nomProv);
-		return com;
+		ResponseEntity<List<Comune>> resp = null;
+		try {
+			com = comuneDao.getAllComuni(nomProv);
+			resp = new ResponseEntity<>(com, HttpStatus.OK);
+		} catch (Exception e) {
+			resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return resp;
 	}
 
 	@GetMapping("/lista-province/{nomeReg}/province")
-	public List<String> getProvinceByRegione(@PathVariable("nomeReg") String regione) {
+	public ResponseEntity<List<String>> getProvinceByRegione(@PathVariable("nomeReg") String regione) {
 		List<String> province = null;
-		province = comuneDao.getAllProvince(regione);
-		return province;
+		ResponseEntity<List<String>> resp = null;
+		try {
+			province = comuneDao.getAllProvince(regione);
+			resp = new ResponseEntity<>(province, HttpStatus.OK);
+		} catch (Exception e) {
+			resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return resp;
 	}
 
 	@GetMapping("/lista-regioni")
-	public List<String> getAllRegioni() {
+	public ResponseEntity<List<String>> getAllRegioni() {
 		List<String> regioni = null;
-		regioni = comuneDao.getAllRegioni();
-		return regioni;
+		ResponseEntity<List<String>> resp = null;
+		try {
+			regioni = comuneDao.getAllRegioni();
+			resp = new ResponseEntity<>(regioni, HttpStatus.OK);
+		} catch (Exception e) {
+			resp = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return resp;
 	}
 }

@@ -22,10 +22,16 @@ public class ClienteController {
 	private IClienteDao clienteDao;
 
 	@GetMapping("/all-clienti")
-	public List<Cliente> getAll() {
+	public ResponseEntity<List<Cliente>> getAll() {
 		List<Cliente> c = null;
-		c = clienteDao.getAllClienti();
-		return c;
+		ResponseEntity<List<Cliente>> resp = null;
+		try {
+			c = clienteDao.getAllClienti();
+			resp = new ResponseEntity<>(c, HttpStatus.OK);
+		} catch (Exception e) {
+			resp = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return resp;
 	}
 
 	@GetMapping("/get-cliente-by-id/{id}")
